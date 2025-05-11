@@ -24,16 +24,23 @@ namespace ADD
             // IF THIS CHARACTER IS BERING CONTROLLED BY THE OWNER, THEN ASSIGN ITS NETWORK POSITION TO THE POSTION OF THIS CHARACTER
             if (IsOwner)
             {
-                characterNetworkManager.Networkposition.Value = transform.position;
+                characterNetworkManager.NetworkPosition.Value = transform.position;
+                characterNetworkManager.NetworkRotation.Value = transform.rotation;
             }
             // IF THIS CHARACTER IS BEING CONTROLLED FROM ELSE WHERE, THEN ASSIGN ITS POSITION HERE LOCALLY BY THE POSITION OF ITS NETWORK TRANSFORM
             else
             {
+                // Position
                 transform.position = Vector3.SmoothDamp
                     (transform.position,
-                        characterNetworkManager.Networkposition.Value,
+                        characterNetworkManager.NetworkPosition.Value,
                         ref characterNetworkManager.networkPositionVelocity,
                         characterNetworkManager.networkPositionSmoothTime);
+                // Rotation
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    characterNetworkManager.NetworkRotation.Value,
+                    characterNetworkManager.networkRotationSmoothTime);
             }
         }
     }
