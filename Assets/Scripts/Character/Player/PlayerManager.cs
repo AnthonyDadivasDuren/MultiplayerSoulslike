@@ -17,6 +17,9 @@ namespace ADD
         {
             base.Update();
             
+            // IF NOT OWNER OF THIS GAME OBJECT, THEN CAN'T CONTROL OR EDIT IT
+            if (!IsOwner) { return;}
+            
             // HANDLE MOVEMENT
             playerLocomotionManager.handleAllMovement();
         }

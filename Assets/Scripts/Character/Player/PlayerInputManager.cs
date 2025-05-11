@@ -72,6 +72,25 @@ namespace ADD
             SceneManager.activeSceneChanged -= OnSceneChange;
         }
 
+        private void OnApplicationFocus(bool focus)
+        {
+            if (enabled)
+            {
+                //ONLY ALLOWS PLAYER CONTROLS WHEN APPLICATION IS FOCUSED
+                if (focus)
+                {   
+                    
+                    playerControls.Enable();
+                }
+                //STOPS PLAYER CONTROLS WHEN APPLICATION IS MINIMIZED ( i.e. LOST FOCUS)
+                else
+                {
+                    
+                    playerControls.Disable();
+                }
+            }
+        }
+
         private void Update()
         {
             HandleMovementInput();
