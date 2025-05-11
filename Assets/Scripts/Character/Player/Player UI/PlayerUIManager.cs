@@ -2,14 +2,16 @@ using UnityEngine;
 using Unity.Netcode;
 
 
+
 namespace ADD
 {
     public class PlayerUIManager : MonoBehaviour
     {
         public static PlayerUIManager instance;
-        [Header("NETWORK JOIN")] 
-        [SerializeField] bool startGameAsClient;
-        
+
+        [Header("NETWORK JOIN")] [SerializeField]
+        bool startGameAsClient;
+
         private void Awake()
         {
             if (instance == null)
@@ -21,8 +23,8 @@ namespace ADD
                 Destroy(gameObject);
             }
         }
-        
-        
+
+
 
         private void Update()
         {

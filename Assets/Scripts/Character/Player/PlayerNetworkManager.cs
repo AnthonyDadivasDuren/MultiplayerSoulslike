@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class PlayerNetworkManager : CharacterNetworkManager
+namespace ADD
 {
-    
+    public class PlayerNetworkManager : CharacterNetworkManager
+    {
+
+    }
 }

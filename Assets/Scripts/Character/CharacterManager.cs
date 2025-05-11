@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+
+
 namespace ADD
 {
     public class CharacterManager : NetworkBehaviour
     {
         public CharacterController characterController;
-        
+
         CharacterNetworkManager characterNetworkManager;
-        
+
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
-            
+
             characterController = GetComponent<CharacterController>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
         }
@@ -32,10 +34,10 @@ namespace ADD
             {
                 // Position
                 transform.position = Vector3.SmoothDamp
-                    (transform.position,
-                        characterNetworkManager.NetworkPosition.Value,
-                        ref characterNetworkManager.networkPositionVelocity,
-                        characterNetworkManager.networkPositionSmoothTime);
+                (transform.position,
+                    characterNetworkManager.NetworkPosition.Value,
+                    ref characterNetworkManager.networkPositionVelocity,
+                    characterNetworkManager.networkPositionSmoothTime);
                 // Rotation
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
@@ -43,5 +45,11 @@ namespace ADD
                     characterNetworkManager.networkRotationSmoothTime);
             }
         }
+
+        protected virtual void LateUpdate()
+        {
+            
+        }
+        
     }
 }

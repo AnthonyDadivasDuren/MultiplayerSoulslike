@@ -1,27 +1,56 @@
 using UnityEngine;
 
+
 namespace ADD
 {
     public class PlayerManager : CharacterManager
     {
         PlayerLocomotionManager playerLocomotionManager;
-        override protected void Awake()
+
+        protected override void Awake()
         {
             base.Awake();
-            
+
             // DO MORE STUFF ONLY FOR THE PLAYER
-            
+
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
         }
-        override protected void Update()
+
+        protected override void Update()
         {
             base.Update();
-            
+
             // IF NOT OWNER OF THIS GAME OBJECT, THEN CAN'T CONTROL OR EDIT IT
-            if (!IsOwner) { return;}
-            
+            if (!IsOwner)
+            {
+                return;
+            }
+
             // HANDLE MOVEMENT
             playerLocomotionManager.handleAllMovement();
+        }
+        
+        protected override void LateUpdate()
+        {
+            
+            // IF NOT OWNER OF THIS GAME OBJECT, THEN CAN'T CONTROL OR EDIT IT
+            if (!IsOwner) { return; }
+
+            base.LateUpdate();
+
+            PlayerCamera.instance.HandleAllCameraActions();
+
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            // IF THIS IS THE PLAYER OBJECT OWNED BY THIS CLIENT
+            if (IsOwner)
+            {
+                PlayerCamera.instance.player = this;
+            }
         }
     }
 }
