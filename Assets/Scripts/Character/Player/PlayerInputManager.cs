@@ -130,6 +130,8 @@ namespace ADD
             // WHY DO PASS 0 ON THE HORIZONTAL? BECAUSE ONLY WANT NON-STRAFING MOVEMENT
             // USE THE HORIZONTAL WHEN STRAFING OR LOCKED ON
             
+            if (player == null) { return; }
+            
             // IF NOT LOCKED ON, ONLY USE THE MOVE AMOUNT
             player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
             

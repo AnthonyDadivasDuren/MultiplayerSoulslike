@@ -16,7 +16,7 @@ namespace ADD
         [SerializeField] float runningSpeed = 5f;
         [SerializeField] float rotationSpeed = 15f;
 
-        override protected void Awake()
+        protected override void Awake()
         {
             base.Awake();
 
@@ -24,7 +24,30 @@ namespace ADD
             player = GetComponent<PlayerManager>();
         }
 
-        public void handleAllMovement()
+        protected override void Update()
+        {
+            base.Update();
+
+            if (player.IsOwner)
+            {
+                player.characterNetworkManager.verticalMovement.Value = verticalMovement;
+                player.characterNetworkManager.horizontalMovement.Value = horizontalMovement;
+                player.characterNetworkManager.moveAmount.Value = moveAmount;
+            }
+            else
+            {
+                verticalMovement = player.characterNetworkManager.verticalMovement.Value;
+                horizontalMovement = player.characterNetworkManager.horizontalMovement.Value;
+                moveAmount = player.characterNetworkManager.moveAmount.Value;
+                
+                // IF NOT LOCKED ON, PASS MOVE AMOUNT
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+                
+                // IF LOCKED ON, PASS HORIZONTAL AND VERTICAL VALUES
+            }
+        }
+
+        public void HandleAllMovement()
         {
             //  GROUNDED MOVEMENT
             HandleGroundedMovement();
@@ -33,10 +56,11 @@ namespace ADD
 
         }
 
-        private void GetVerticalAndHorizontalInputs()
+        private void GetMovementValues()
         {
             verticalMovement = PlayerInputManager.instance.verticalInput;
             horizontalMovement = PlayerInputManager.instance.horizontalInput;
+            moveAmount = PlayerInputManager.instance.moveAmount;
 
             // CLAMP THE MOVEMENTS
 
@@ -44,7 +68,7 @@ namespace ADD
 
         private void HandleGroundedMovement()
         {
-            GetVerticalAndHorizontalInputs();
+            GetMovementValues();
 
             //  MOVE DIRECTION IS BASED ON THE CAMERAS FACING PERSPECTIVE & MOVEMENT INPUTS
             moveDirection = PlayerCamera.instance.transform.forward * verticalMovement;

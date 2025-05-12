@@ -29,7 +29,7 @@ namespace ADD
             }
 
             // HANDLE MOVEMENT
-            playerLocomotionManager.handleAllMovement();
+            playerLocomotionManager.HandleAllMovement();
         }
         
         protected override void LateUpdate()

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -9,6 +10,11 @@ namespace ADD
         protected virtual void Awake()
         {
 
+        }
+
+        protected virtual void Update()
+        {
+            
         }
     }
 }
