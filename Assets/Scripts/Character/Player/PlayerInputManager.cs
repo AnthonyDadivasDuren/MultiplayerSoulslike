@@ -10,9 +10,10 @@ namespace ADD
     public class PlayerInputManager : MonoBehaviour
     {
         public static PlayerInputManager instance;
+        
+        public PlayerManager player;
 
-        // THINK ABOUT GOALS IN STEPS
-        // 2. MOVE CHARACTER BASED ON INPUT
+        
         PlayerControls playerControls;
 
         [Header("PLAYER MOVEMENT INPUT")]
@@ -125,7 +126,14 @@ namespace ADD
             {
                 moveAmount = 1;
             }
-
+            
+            // WHY DO PASS 0 ON THE HORIZONTAL? BECAUSE ONLY WANT NON-STRAFING MOVEMENT
+            // USE THE HORIZONTAL WHEN STRAFING OR LOCKED ON
+            
+            // IF NOT LOCKED ON, ONLY USE THE MOVE AMOUNT
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+            
+            // IF LOCKED ON PASS THE HORIZONTAL VALUE AS WELL
 
         }
 
